@@ -1,0 +1,15 @@
+spring:
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          username: jqfx
+          password: "Jqfx123!@#"
+          url: jdbc:mysql://rm-8vbr079f12942r803ho.mysql.zhangbei.rds.aliyuncs.com:2209/jfyjs?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai
+          driver-class-name: com.mysql.cj.jdbc.Driver
+#  redis:
+#    host: r-8vb72d6d3d3aadf4pd.redis.zhangbei.rds.aliyuncs.com
+#    port: 1345
+#    timeout: 8000
+#    database: 10
+#    password: Jqfx123!@#

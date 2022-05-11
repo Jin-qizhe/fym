@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户管理</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="${cp}/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="${cp}/layuiadmin/style/admin.css" media="all">
+    <link rel="stylesheet" href="${cp}/layuiadmin/layui/css/modules/cascader/cascader.css" media="all">
+    <style>
+        .layui-card-header {
+            /*position: relative;*/
+            height: auto;
+            /*line-height: 200px;*/
+            padding: 0 15px 10px;
+            border-bottom: 1px solid #f6f6f6;
+            color: #333;
+            border-radius: 2px 2px 0 0;
+            font-size: 14px
+        }
+    </style>
+</head>
+<body>
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <form class="layui-form" lay-filter="component-form-element">
+                        <div class="layui-col-space10" style="padding-top:10px">
+                            <div class="layui-inline">
+                                <input type="text" name="name" placeholder="姓名" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-inline">
+                                    <input type="text" id="gxdwCas" name="deptId" style="display: none;">
+                                    <input type="text" id="gxdwCascader" class="layui-input ellipsis" readonly="readonly"
+                                           placeholder="管辖单位">
+                                </div>
+                            </div>
+                            <div class="layui-inline">
+                                <input type="text" name="loginName" placeholder="登录名" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <input type="text" name="phone" placeholder="手机号码" autocomplete="off"
+                                       class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-btn-group">
+                                    <button type="button" class="layui-btn" lay-submit
+                                            lay-filter="component-form-element">搜索
+                                    </button>
+                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="test-table-resetPage" lay-filter="test-table-resetPage"></table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="${cp}/layuiadmin/layui/layui.js"></script>
+<script type="text/html" id="bar_table">
+    <div class="layui-btn-group">
+        <div class="layui-btn-group">
+            <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="edit">修改</a>
+            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+            <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="role">角色分配</a>
+        </div>
+    </div>
+</script>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">添加</a>
+    </div>
+</script>
+<script>
+    layui.config({
+        base: '${cp}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['layer', 'index', 'form', 'table','cascader'], function () {
+        var admin = layui.admin
+            , table = layui.table;
+        var $ = layui.$
+            , element = layui.element
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , cascader = layui.cascader
+            , form = layui.form;
+
+        var tableIns = table.render({
+            elem: '#test-table-resetPage'
+            , url: '${cp}/suser/data'
+            , toolbar: '#toolbar'
+            , page: true //开启分页
+            , request: {
+                pageName: 'current' //页码的参数名称，默认：page
+                , limitName: 'size' //每页数据量的参数名，默认：limit
+
+            }
+            , cols: [[
+                {title: '序号', type: 'numbers'}
+                , {field: 'name', title: '姓名', align: 'center'}
+                , {field: 'deptName', title: '管辖单位', align: 'center'}
+                , {field: 'loginName', title: '登录名', align: 'center'}
+                , {
+                    field: 'phone', title: '手机号码', align: 'center', templet: function (d) {
+                        if (d.phone == null) {
+                            return "";
+                        } else {
+                            return d.phone;
+                        }
+                    }
+                }
+                , {title: '操作', align: 'center', toolbar: '#bar_table'} //这里的toolbar值是模板元素的选择器
+            ]]
+
+        });
+
+        //监听工具条
+        table.on('tool(test-table-resetPage)', function (obj) { //注：tool是工具条事件名，data_table是table原始容器的属性 lay-filter="对应的值"
+            var data = obj.data; //获得当前行数据
+            var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
+            var tr = obj.tr; //获得当前行 tr 的DOM对象
+            if (layEvent == 'role') {
+                roleEdit(data.id, '角色编辑');
+            }else if(layEvent == 'del'){
+                layer.confirm('确定删除?', function(index){
+                    obj.del();
+                    layer.close(index);
+                    $.ajax({
+                        url: "${cp}/suser/delete?id=" + data.id,
+                        async: false,
+                        success: function (d) {
+                            if (d) {
+                                layer.alert("删除成功");
+                                tableIns.reload();
+                            } else {
+                                layer.alert("删除失败");
+                            }
+                        }
+                    });
+                });
+            }else if(layEvent == 'edit'){
+                edit(data.id, '编辑用户');
+            }
+        });
+
+        //监听事件
+        table.on('toolbar(test-table-resetPage)', function (obj) {
+            switch (obj.event) {
+                case 'add':
+                    edit(-1, '添加用户');
+                    break;
+            };
+        });
+
+        /**
+         * 编辑表格
+         */
+        function edit(id, title) {
+            layer.open({
+                title: title,//标题
+                content: '${cp}/suser/edit?id=' + id,//url地址
+                type: 2,//不用改
+                shade: 0.5,
+                area: ['500px', '500px'],//宽度、高度
+                maxmin:true,
+                cancel: function (index, layero) {
+                    layer.close(index);
+                    tableIns.reload();
+                    return false;
+                }
+            });
+        }
+
+        /**
+         * 分配角色
+         */
+        function roleEdit(id, title) {
+            layer.open({
+                title: title,//标题
+                content: '${cp}/suser/role/edit?id=' + id,//url地址
+                type: 2,//不用改
+                area: ['500px', '183px'],
+                cancel: function (index, layero) {
+                    layer.close(index);
+                    return false;
+                }
+            });
+        }
+
+
+        form.on('submit(component-form-element)', function (data) {
+            //执行重载
+            tableIns.reload({
+                where: data.field,
+                page: {
+                    curr: 1
+                }
+            });
+        });
+
+        cascader({
+            elem: "#gxdwCascader",
+            url: "${cp}/cache/gxdw",
+            type: "get",
+            success: function (valData, labelData) {
+                $("#gxdwCas").val(valData)
+            }
+        });
+
+    });
+</script>
+</body>
+</html>

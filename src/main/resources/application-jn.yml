@@ -1,0 +1,43 @@
+spring:
+  mvc:
+    favicon:
+      enabled: false
+    dateFormat: yyyy-MM-dd HH:mm:ss
+  freemarker:
+    charset: UTF-8
+    suffix: .html
+    content-type: text/html;charset=utf-8
+    template-loader-path: classpath:/templates
+    settings:
+      tag_syntax: auto_detect
+      number_format: 0.##
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          username: ZDPYC
+          password: ZDPYC2018
+          url: jdbc:oracle:thin:@192.168.126.176:1521:orcl
+          driver-class-name: oracle.jdbc.driver.OracleDriver
+  redis:
+    host: 192.168.126.175 # Redis服务器地址
+    port: 6379 # Redis服务器连接端口
+    timeout: 8000 # 连接超时时间（毫秒）
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  typeAliasesPackage: com.ydt.bean
+  global-config:
+    id-type: 0
+    field-strategy: 2
+    db-column-underline: true
+
+log:
+  path: D:\
+
+server:
+  servlet:
+    context-path: /
+  port: 8080
+
+uploadPath: /Users/lvjianqing/logs/upload/

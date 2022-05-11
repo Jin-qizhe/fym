@@ -1,0 +1,336 @@
+body {
+	background: #f2f2f2;
+	position: absolute;
+	width: 100%;
+	height: 100%;
+}
+
+.jbg_lo {
+	width: 100%;
+	height: 100%;
+	float: left;
+	background: #ffffff;
+}
+
+.jq-slm {
+	padding: 10px;
+	background-color: #F2F2F2;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+}
+
+.layui-tab-title li {
+	display: inline-block;
+	*display: inline;
+	*zoom: 1;
+	vertical-align: middle;
+	font-size: 14px;
+	transition: all .2s;
+	-webkit-transition: all .2s;
+	position: relative;
+	line-height: 40px;
+	min-width: auto;
+	padding: 0 15px;
+	text-align: center;
+	cursor: pointer;
+	margin-left: 15px;
+}
+
+.layui-tab-brief>.layui-tab-title .layui-this {
+	color: #1890FF;
+}
+
+.layui-tab-brief>.layui-tab-title .layui-this {
+	color: #1890FF;
+}
+
+.layui-tab-brief>.layui-tab-more li.layui-this:after,
+.layui-tab-brief>.layui-tab-title .layui-this:after {
+	border: none;
+	border-radius: 0;
+	border-bottom: 2px solid #1890FF;
+}
+
+/*.layui-input,*/
+/*.layui-select,*/
+/*.layui-textarea {*/
+/*	height: 30px;*/
+/*	line-height: 1.3;*/
+/*	line-height: 30px\9;*/
+/*	border-width: 1px;*/
+/*	border-style: solid;*/
+/*	background-color: #fff;*/
+/*	border-radius: 2px;*/
+/*}*/
+
+.layui-form-label {
+	float: left;
+	display: block;
+	padding: 6px 15px;
+	width: auto;
+	font-weight: 400;
+	line-height: 20px;
+	text-align: right;
+}
+
+.layui-form-item .layui-inline {
+	margin-bottom: 5px;
+	margin-right: 10px;
+	float: left;
+}
+
+.quey {
+	width: calc(100% - 5px);
+	float: left;
+}
+
+.date-sm {
+	width: 100%;
+	float: left;
+}
+
+.year {
+	width: 100%;
+	float: left;
+	padding: 13px;
+	    box-sizing: border-box;
+}
+
+.textyesr {
+	width: 100%;
+	float: left;
+}
+
+.textyesr span {
+	border: 2px solid #1890FF;
+	width: 7px;
+	height: 7px;
+	border-radius: 7px;
+	display: block;
+	float: left;
+	position: relative;
+	top: 9px;
+}
+
+.textyesr label {
+	font-size: 22px;
+	font-weight: bold;
+	padding-left: 6px;
+}
+
+.month {
+	width: 100%;
+	float: left;
+}
+
+.month ul {
+	width: 100%;
+}
+
+.month ul li {
+	width: 154px;
+	height: 194px;
+	background: #FFFFFF;
+         margin-top: 15px;
+	border-radius: 8px;
+	display: inline-block;
+
+	margin-left: 10px;
+     cursor: pointer;
+
+	box-shadow: 0px 2px 13px 0px #E3F1FD;
+	border: 1px solid transparent;
+	position: relative;
+}
+
+
+.month ul li:hover {
+	border: 1px solid #41BC8D;
+}
+
+.border p {
+	width: 40px;
+	height: 2px;
+	background: #1890FF;
+	border-radius: 2px;
+
+}
+.dayb p{width: 40px;
+	height: 2px;
+	background:#F27165 !important;
+	border-radius: 2px;}
+.zb p {
+	width: 40px;
+	height: 2px;
+	background: #41BC8D !important;
+	border-radius: 2px;
+
+}
+
+.monthli {
+	box-shadow: 0px 2px 13px 0px #E3F1FD;
+}
+
+.monthli ul li {
+	position: relative;
+	top: 38%;
+	left: -40px;
+	font-size: 28px;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 600;
+	color: #1890FF;
+}
+.monthli:hover{ border: 1px solid  #1890FF !important;}
+.dayli ul li {
+	position: relative;
+	top: 38%;
+	left: -40px;
+	font-size: 28px;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 600;
+	color: #F27165;
+}
+.dayli:hover{ border: 1px solid  #DAB78E !important;}
+
+
+.jjb ul li {
+	position: relative;
+	top: 38%;
+	left: -40px;
+	font-size: 28px;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 600;
+	color: #DAB78E;
+}
+.jjb:hover{ border: 1px solid  #DAB78E !important;}
+
+.jjb span {
+	color: #DAB78E !important;
+}
+.jb p{width: 40px;
+	height: 2px;
+	background:#DAB78E !important;
+	border-radius: 2px;}
+
+.monthli span {
+	color: #1890FF !important;
+}
+.dayli span {
+	color: #F27165 !important;
+}
+
+
+.border {
+	margin-left: 20px;
+	margin-top: 20px;
+	float: left;
+}
+
+.border label {
+	font-size: 14px;
+	font-weight: bold;
+	color: #333333;
+	position: relative;
+	top: 5px;
+}
+
+.month ul li span {
+	position: relative;
+	top: 38%;
+	left: -40px;
+	font-size: 28px;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 600;
+	color: #41BC8D;
+}
+/*日报*/
+.report {
+
+	font-size: 14px;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 500;
+	color: #333333;
+	position: absolute;
+	bottom: 10px;
+	left: 13px;
+}
+/*周报*/
+.report1 {
+
+	font-size: 14px;
+	font-family: PingFangSC-Medium, PingFang SC;
+	font-weight: 500;
+	color: #333333;
+	position: absolute;
+	bottom: 10px;
+	left: 13px;
+}
+/*月报*/
+.report2 {
+
+	 font-size: 14px;
+	 font-family: PingFangSC-Medium, PingFang SC;
+	 font-weight: 500;
+	 color: #333333;
+	 position: absolute;
+	 bottom: 10px;
+	 left: 13px;
+ }
+
+.month ul li img {
+	position: absolute;
+	right: 0px;
+	bottom: 0px;
+}
+.layui-tab {
+    margin: 10px 0;
+    text-align: left!important;
+	height: 100%;
+}
+.layui-tab-content{height: calc(100% - 60px);}
+.layui-tab-item{
+	height: calc(100% - 30px);
+	/*!*overflow: auto;*! /* 把这个注释掉，可以去掉下面的滚动条*/
+}
+/*.layui-btn {*/
+/*    display: inline-block;*/
+/*    height: 25px;*/
+/*    line-height: 25px;*/
+/*    padding: 0 10px;*/
+/*    !*background-color: #1890FF;*!*/
+/*	background-color: #009688;*/
+/*	color: #fff;*/
+/*    white-space: nowrap;*/
+/*    text-align: center;*/
+/*    font-size: 14px;*/
+/*    border: none;*/
+/*    border-radius: 2px;*/
+/*    cursor: pointer;*/
+/*}*/
+.layui-icon {
+    font-family: layui-icon!important;
+    font-size: 12px;
+    font-style: normal;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+.layui-timeline-axis {
+    position: absolute;
+    left: -5px;
+    top: 0;
+    z-index: 10;
+    width: 20px;
+    height: 20px;
+    line-height: 20px;
+    background-color: #fff;
+    color: #1890FF;
+    border-radius: 50%;
+    text-align: center;
+    cursor: pointer;
+}
+.ybfont span{ font-size: 18px; font-weight: bold; color: #333333; }
+.ybfont{width: 100px; float: left;}
+.timeyb li{ height: 200px;}
+.timeyb{ position: relative; top: 80px; width: 100%; float: left;}
+.tmitime{ position: relative; top: -85px;}

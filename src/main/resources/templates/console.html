@@ -1,0 +1,252 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>警情分析主页</title>
+  <meta name="renderer" content="webkit">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+  <link rel="stylesheet" href="${cp}/layuiadmin/layui/css/layui.css" media="all">
+  <link rel="stylesheet" href="${cp}/layuiadmin/style/admin.css" media="all">
+</head>
+<body>
+
+  <div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+      <div class="layui-col-md8">
+        <div class="layui-row layui-col-space15">
+          <div class="layui-col-md6">
+            <div class="layui-card">
+              <div class="layui-card-header">
+                  快捷方式
+                  <i class="layui-icon layui-icon-edit" lay-tips="修改快捷方式" lay-offset="5" id="lnk"></i>
+              </div>
+              <div class="layui-card-body">
+
+                <div class="layui-carousel layadmin-carousel layadmin-shortcut">
+                  <div carousel-item>
+                    <ul class="layui-row layui-col-space10">
+                      <#list lnkList as a>
+                      <li class="layui-col-xs3">
+                        <a lay-href="${cp}${a.url!''}">
+                          <i class="layui-icon ${a.icon!''}"></i>
+                          <cite>${a.title!''}</cite>
+                        </a>
+                      </li>
+                      </#list>
+                    </ul>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+          <div class="layui-col-md6">
+            <div class="layui-card">
+              <div class="layui-card-header">警情打标</div>
+              <div class="layui-card-body">
+
+                <div class="layui-carousel layadmin-carousel layadmin-backlog">
+                  <div carousel-item>
+                    <ul class="layui-row layui-col-space10">
+                      <li class="layui-col-xs6">
+                        <a class="layadmin-backlog-body"
+                        <#list powerList as a><#if a.title == '未打标'>lay-href="${cp}${a.url!''}"</#if></#list>>
+                          <h3>未打标</h3>
+                          <p><cite>${wdbCount!''}</cite></p>
+                        </a>
+                      </li>
+                      <li class="layui-col-xs6">
+                        <a class="layadmin-backlog-body"
+                        <#list powerList as a><#if a.title == '已打标'>lay-href="${cp}${a.url!''}"</#if></#list>>
+                          <h3>已打标</h3>
+                          <p><cite>${ydbCount!''}</cite></p>
+                        </a>
+                      </li>
+                      <li class="layui-col-xs6">
+                        <a class="layadmin-backlog-body"
+                        <#list powerList as a><#if a.title == '审核未通过'>lay-href="${cp}${a.url!''}"</#if></#list>>
+                          <h3>审核未通过</h3>
+                          <p><cite>${shwtgCount!''}</cite></p>
+                        </a>
+                      </li>
+                      <li class="layui-col-xs6">
+                        <a class="layadmin-backlog-body"
+                        <#list powerList as a><#if a.title == '审核通过'>lay-href="${cp}${a.url!''}"</#if></#list>>
+                          <h3>审核通过</h3>
+                          <p><cite>${shtgCount!''}</cite></p>
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="layui-col-md12">
+            <div class="layui-card">
+              <div class="layui-card-header">警情分析</div>
+              <div class="layui-card-body">
+
+                <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="LAY-index-dataview">
+                  <div carousel-item id="LAY-index-dataview">
+                    <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+                    <div></div>
+                    <div></div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+            <div class="layui-card">
+                <div class="layui-card-header">今日警情</div>
+                <div class="layui-card-body">
+                    <div class="layui-tab-item layui-show">
+                        <table id="LAY-index-topSearch"></table>
+                    </div>
+                </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="layui-col-md4">
+        <div class="layui-card">
+          <div class="layui-card-header">系统信息</div>
+          <div class="layui-card-body layui-text">
+            <table class="layui-table">
+              <colgroup>
+                <col width="100">
+                <col>
+              </colgroup>
+              <tbody>
+                <tr>
+                  <td>警情总数</td>
+                  <td>
+                    <script type="text/html" template>
+                      <#if zs??>${zs!''}</#if>
+                    </script>
+                  </td>
+                </tr>
+                <tr>
+                  <td>已梳理数</td>
+                  <td>
+                    <script type="text/html" template>
+                      <#if ysls??>${ysls!''}</#if>
+                    </script>
+                 </td>
+                </tr>
+                <tr>
+                  <td>技术支持</td>
+                  <td>浙江亿点通信息科技有限公司</td>
+                </tr>
+                <tr>
+                  <td>快速下载</td>
+                  <td style="padding-bottom: 0;">
+                    <div class="layui-btn-container">
+                      <!--<a href="http://www.layui.com/admin/" target="_blank" class="layui-btn layui-btn-danger">操作手册</a>-->
+                      <!--<a href="http://fly.layui.com/download/layuiAdmin/" target="_blank" class="layui-btn">可视化插件</a>-->
+                      <!--<a href="http://fly.layui.com/download/layuiAdmin/" target="_blank" class="layui-btn">标签</a>-->
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="layui-card">
+          <div class="layui-card-header">今日打标完成情况</div>
+          <div class="layui-card-body layadmin-takerates">
+            <div class="layui-progress" lay-showPercent="yes">
+              <h3>打标率（日同比 <#if dbrtb??>${dbrtb!''}</#if>%
+              <#if upOrDown?? && upOrDown==1>
+              <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>
+              <#else>
+              <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>
+              </#if>）</h3>
+              <div class="layui-progress-bar" lay-percent="<#if dbl??>${dbl!''}</#if>%"></div>
+            </div>
+            <div class="layui-progress" lay-showPercent="yes">
+              <h3>未打标率（日同比 <#if wdbrtb??>${wdbrtb!''}</#if>%
+              <#if upOrDown2?? && upOrDown2==1>
+              <span class="layui-edge layui-edge-top" lay-tips="增长" lay-offset="-15"></span>
+              <#else>
+              <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>
+              </#if>）</h3>
+              <div class="layui-progress-bar" lay-percent="<#if wdbl??>${wdbl!''}</#if>%"></div>
+            </div>
+<!--            <div class="layui-progress" lay-showPercent="yes">-->
+<!--              <h3>超时率（日同比 11% <span class="layui-edge layui-edge-bottom" lay-tips="下降" lay-offset="-15"></span>）</h3>-->
+<!--              <div class="layui-progress-bar" lay-percent="32%"></div>-->
+<!--            </div>-->
+          </div>
+        </div>
+
+        <div class="layui-card">
+          <div class="layui-card-header">今日打标审核情况</div>
+          <div class="layui-card-body layadmin-takerates">
+            <div class="layui-progress" lay-showPercent="yes">
+              <h3>审核通过率</h3>
+              <div class="layui-progress-bar" lay-percent="<#if tgl??>${tgl!''}</#if>%"></div>
+            </div>
+            <div class="layui-progress" lay-showPercent="yes">
+              <h3>审核不通过率</h3>
+              <div class="layui-progress-bar layui-bg-red" lay-percent="<#if wtgl??>${wtgl!''}</#if>%"></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="layui-card">
+          <div class="layui-card-header">
+            警情占比
+            <i class="layui-icon layui-icon-tips" lay-tips="各类警情占比" lay-offset="5"></i>
+          </div>
+          <div class="layui-card-body layui-text layadmin-text">
+            <div class="layui-carousel layadmin-carousel layadmin-dataview" data-anim="fade" lay-filter="gljqzbPie">
+              <div carousel-item id="gljqzbPie">
+                <div><i class="layui-icon layui-icon-loading1 layadmin-loading"></i></div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="layui-inline">
+          <input type="text" class="layui-input" value="<#if date??>${date!''}</#if>" id="date" style="display: none">
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <script src="${cp}/layuiadmin/layui/layui.js?t=1"></script>
+  <script src="${cp}/js/util.js"></script>
+  <script>
+  layui.config({
+    base: '${cp}/layuiadmin/' //静态资源所在路径
+  }).extend({
+    index: 'lib/index' //主入口模块
+  }).use(['index', 'console'],function () {
+    var $ = layui.$
+            , layer = layui.layer;
+    $('#lnk').on('click', function(){
+      layer.open({
+        title: '修改快捷方式',//标题
+        content: '${cp}/lnk',//url地址
+        type: 2,//不用改
+        shade: 0.5,
+        area: ['500px', '500px'],//宽度、高度
+        maxmin:true,
+        cancel: function (index, layero) {
+          layer.close(index);
+          window.location.reload();
+          return false;
+        }
+      });
+    });
+  });
+  </script>
+</body>
+</html>
+

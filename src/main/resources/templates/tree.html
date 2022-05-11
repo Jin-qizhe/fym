@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="${cp}/layuiadmin/layui/css/layui.css" media="all">
+</head>
+<body>
+<div class="layui-row" style="padding: 10px 0 0 10px">
+    <ul class="layui-col-md3">
+        <input type="text" placeholder="请输入关键字进行搜索" autocomplete="off"
+               class="layui-input bjTree-search">
+        <div id="tree" class="demo-tree demo-tree-box"></div>
+    </ul>
+</div>
+<script src="${cp}/layuiadmin/layui/layui.js"></script>
+
+
+
+
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    var checkedid='';
+    var checkedname='';
+    layui.use(['jquery', 'form' ,'tree'], function () {
+        var form = layui.form
+            , layer = layui.layer
+            , layedit = layui.layedit
+            , $ = layui.$
+            , laydate = layui.laydate,
+            tree = layui.tree;
+        var treeData=[];
+        $(document).ready(function () {
+            treeData= ${treeData!''};
+            if (treeData) {
+                tree.render({
+                    elem: '#tree'
+                    , id: 'treeId'
+                    , data: treeData
+                    <#if single?? && single>
+                    , click: function (obj) {
+                        treeClick(obj.data)
+                    }
+                    <#else>
+                    , showCheckbox: true
+                    </#if>
+
+                });
+            }
+            treeObj=$("#tree");
+        });
+        $(".bjTree-search").on("change", function () {
+            filterTree($(this).val(), 'treeId')
+        })
+        window.filterTree = function (search, treeId) {
+            var filterData = []
+            if (!search) {
+                filterData = treeData
+            } else {
+                treeData.forEach(x => {
+                    if (x.title.indexOf(search) != -1) {
+                    filterData.push(x)
+                } else {
+                    var yArr = []
+                    var zArr = []
+                    if (x.children) {
+                        x.children.forEach(y => {
+                            if (y.title.indexOf(search) != -1) {
+                            yArr.push(y)
+                            }
+                            if(y.children){
+                                y.children.forEach(z => {
+                                    if (z.title.indexOf(search) != -1) {
+                                    zArr.push(z)
+                                }
+                                })
+                                if(zArr.length>0){
+                                    y.children = zArr
+                                    yArr.push(y)
+                                }
+                            }
+                        })
+                    }
+                    if (yArr.length > 0) {
+                        x.children = yArr
+                        filterData.push(x)
+                    }
+                }
+            })
+            }
+            tree.reload(treeId, {data: filterData});
+        }
+        window.getLbIds=function () {
+            var checkeds = tree.getChecked('treeId'); //获取选中节点的数据
+            var nodes = "";
+            checkeds.forEach(x => {
+                var childrens=x.children;
+                if(!childrens){
+                    nodes += "," + x.id;
+                }else{
+                    childrens.forEach(y => {
+                        var childrens2=y.children;
+                        if(!childrens2){
+                            nodes += "," + y.id;
+                        }else{
+                            childrens2.forEach(z => {
+                                nodes += "," + z.id;
+                            })
+                        }
+                    })
+                }
+            })
+            return nodes.substring(1, nodes.length);
+        }
+        window.getNames=function () {
+            var checkeds = tree.getChecked('treeId'); //获取选中节点的数据
+            var names = "";
+            checkeds.forEach(x => {
+                var childrens=x.children;
+                if(!childrens){
+                    names += "," + x.title;
+                }else{
+                    childrens.forEach(y => {
+                        var childrens2=y.children;
+                    if(!childrens2){
+                        names += "," + y.title;
+                    }else{
+                        childrens2.forEach(z => {
+                            names += "," + z.title;
+                    })
+                    }
+                })
+                }
+            })
+            return names.substring(1, names.length);
+        }
+        window.clear=function() {
+            tree.reload('treeId',{});
+        }
+        window.treeClick = function (data) {
+            var id = data.id
+            checkedid = id
+            checkedname = data.title
+            $(".layui-tree-txt").css("color", "#666")
+            $('#tree' + " [data-id='" + id + "'] .layui-tree-txt:first").css("color", "#1E90FF")
+        }
+    });
+
+</script>
+
+</body>
+</html>

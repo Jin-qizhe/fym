@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ydt.dao.BYqycFyBaseDao">
+
+    <select id="getUser" resultType="com.ydt.controller.res.UserRes">
+        select cert_no zjhm,mobile sjhm,user_id,user_name xm,health_code jkmzt,
+        vaccination_count jxcs from user
+        <where>
+            <choose>
+                <when test="zjhm != '' and zjhm !=null">
+                    cert_no = #{zjhm}
+                </when>
+                <otherwise>
+                    mobile = #{sjhm}
+                </otherwise>
+            </choose>
+            limit 1
+        </where>
+    </select>
+    <select id="getFyxx" resultType="com.ydt.controller.res.ScanRes">
+        select instance_code xxdz
+        from t_scan_log
+    </select>
+    <select id="getScanxx" resultType="com.ydt.controller.res.ScanRes">
+        select scan_lng gps_x, scan_lat gps_y, scan_time insertTime, instance_code
+        from t_scan_log
+        where user_id = #{userId}
+        order by scan_time desc limit 1
+    </select>
+    <select id="getInstancexx" resultType="com.ydt.controller.res.InstanceRes">
+        select instance_name, address_info xxdz, addr_id
+        from c_scene_instance
+        where no = #{instanceCode}
+    </select>
+    <select id="getSsdq" resultType="java.lang.String">
+        select name
+        from v_address
+        where id = #{addrId}
+    </select>
+    <select id="getScanList" resultType="com.ydt.controller.res.ScanRes">
+        select user_id, scan_lng gps_x, scan_lat gps_y, scan_time insertTime, instance_code
+        from t_scan_log
+        where instance_code like concat('%', #{ysxh}, '%')
+          and scan_time > #{date}
+    </select>
+    <select id="getUserById" resultType="com.ydt.controller.res.UserRes">
+        select cert_no           zjhm,
+               mobile            sjhm,
+               user_id,
+               user_name         xm,
+               health_code       jkmzt,
+               vaccination_count jxcs
+        from user
+        where user_id = #{userId}
+    </select>
+</mapper>

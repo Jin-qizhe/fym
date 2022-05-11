@@ -1,0 +1,51 @@
+spring:
+  mvc:
+    favicon:
+      enabled: false
+    dateFormat: yyyy-MM-dd HH:mm:ss
+  freemarker:
+    charset: UTF-8
+    suffix: .html
+    content-type: text/html;charset=utf-8
+    template-loader-path: classpath:/templates
+    settings:
+      tag_syntax: auto_detect
+      number_format: 0.##
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          username: pcszhzhs
+          password: "pcszhzhs123!@#"
+          url: jdbc:mysql://rm-8vbr079f12942r803ho.mysql.zhangbei.rds.aliyuncs.com:2209/qzqy?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=Asia/Shanghai&rewriteBacthedStatements=true
+          driver-class-name: com.mysql.cj.jdbc.Driver
+#  redis:
+#    host: 127.0.0.1
+#    port: 6379
+#    timeout: 8000
+    #database: 28
+    #password: Jqfx123!@#
+#  redis:
+#    host: r-8vb72d6d3d3aadf4pd.redis.zhangbei.rds.aliyuncs.com
+#    port: 1345
+#    timeout: 8000
+#    database: 28
+#    password: Jqfx123!@#
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  typeAliasesPackage: com.ydt.bean
+  global-config:
+    id-type: 0
+    field-strategy: 2
+    db-column-underline: true
+
+log:
+  path: D:\
+
+server:
+  servlet:
+    context-path: /
+  port: 8080
+
+uploadPath: /Users/lvjianqing/logs/upload/

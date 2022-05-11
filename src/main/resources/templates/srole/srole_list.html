@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>角色编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="${cp}/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="${cp}/layuiadmin/style/admin.css" media="all">
+    <style>
+        .layui-card-header {
+            /*position: relative;*/
+            height: auto;
+            /*line-height: 200px;*/
+            padding: 0 15px 10px;
+            border-bottom: 1px solid #f6f6f6;
+            color: #333;
+            border-radius: 2px 2px 0 0;
+            font-size: 14px
+        }
+    </style>
+</head>
+<body>
+
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-header">
+                    <form class="layui-form" lay-filter="component-form-element">
+                        <div class="layui-col-space10" style="padding-top:10px;">
+                            <div class="layui-inline">
+                                <input type="text" name="roleName" placeholder="角色名称" autocomplete="off" class="layui-input">
+                            </div>
+                            <div class="layui-inline">
+                                <div class="layui-btn-group">
+                                    <button type="button"class="layui-btn" lay-submit lay-filter="component-form-element">搜索</button>
+                                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <div class="layui-card-body">
+                    <table class="layui-hide" id="test-table-cellEdit" lay-filter="test-table-cellEdit"></table>
+                    <script type="text/html" id="test-table-cellEdit-barDemo">
+                        <div class="layui-btn-group">
+                            <a class="layui-btn layui-btn-sm layui-btn-warm" lay-event="edit">编辑</a>
+                            <a class="layui-btn layui-btn-sm layui-bg-black" lay-event="permission">权限</a>
+                            <a class="layui-btn layui-btn-sm layui-btn-danger" lay-event="del">删除</a>
+                        </div>
+                    </script>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/html" id="toolbar">
+    <div class="layui-btn-container">
+        <a class="layui-btn layui-btn-sm layui-btn-normal" lay-event="add">添加</a>
+    </div>
+</script>
+<script src="${cp}/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '${cp}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['layer', 'index', 'form', 'table'], function () {
+        var admin = layui.admin
+            , table = layui.table;
+        var $ = layui.$
+            , element = layui.element
+            , layer = layui.layer
+            , laydate = layui.laydate
+            , form = layui.form;
+
+        table.render({
+            elem: '#test-table-cellEdit'
+            ,page: true //是否显示分页
+            ,request: {
+                pageName: 'current' //页码的参数名称，默认：page
+                , limitName: 'size' //每页数据量的参数名，默认：limit
+            }
+            ,limit: 10 //每页默认显示的数量
+            // ,height: 'full-115'
+            ,toolbar: '#toolbar'
+            ,defaultToolbar: []
+            ,url: '${cp}/srole/data'
+            ,cols: [[
+                {title: '序号', type: 'numbers', align: 'center'}
+                , {field: 'roleName', title: '角色名称',  align: 'center'}
+                //, {field: 'sjid', title: '上级ID',  align: 'center'}
+                , {title: '操作', align: 'center', toolbar: '#test-table-cellEdit-barDemo', width: 200} //这里的toolbar值是模板元素的选择器
+            ]]
+        })
+
+        //监听工具条
+        table.on('tool(test-table-cellEdit)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('确定删除?', function(index){
+                    obj.del();
+                    layer.close(index);
+                    //向服务端发送删除指令
+                    $.ajax({
+                        url: "${cp}/srole/delete?id=" + data.id,
+                        async: false,
+                        success: function (d) {
+                            if (d) {
+                                layer.alert("删除成功");
+                                reload_table();
+                            } else {
+                                layer.alert("删除失败");
+                            }
+                        }
+                    });
+                });
+            } else if(obj.event === 'edit'){
+                //layer.alert('编辑行：<br>'+ JSON.stringify(data))
+                edit(data.id, '角色编辑');
+            } else if (obj.event === 'permission') {
+                permissionEdit(data.id, '权限编辑')//权限
+            }
+        });
+
+        //监听事件
+        table.on('toolbar(test-table-cellEdit)', function (obj) {
+            switch (obj.event) {
+                case 'add':
+                    edit(-1, '角色添加');
+                    break;
+            };
+        });
+        /**
+         * 编辑表格
+         */
+        function edit(id, title) {
+            layer.open({
+                title: title,//标题
+                content: '${cp}/srole/edit?id=' + id,//url地址
+                type: 2,//不用改
+                shade: 0.5,
+                area: ['370px', '180px'],//宽度、高度
+                maxmin:true,
+                cancel: function (index, layero) {
+                    layer.close(index);
+                    reload_table();
+                    return false;
+                }
+            });
+        }
+        /**
+         * 权限角色
+         */
+        function permissionEdit(id, title) {
+            layer.open({
+                title: title,//标题
+                content: '${cp}/srole/permission/edit?id=' + id,//url地址
+                type: 2,//不用改
+                shade: 0.5,
+                area: ['500px', '500px'],//宽度、高度
+                maxmin:true,
+                cancel: function (index, layero) {
+                    layer.close(index);
+                    return false;
+                }
+            });
+        }
+
+        //搜索
+        form.on('submit(component-form-element)', function (data) {
+            //alert(JSON.stringify(data.field));
+            //执行重载
+            table.reload('test-table-cellEdit', {
+                where: data.field,
+                page: {
+                    curr: 1
+                },
+            });
+        });
+
+
+        /**
+         * 重新加载表格
+         */
+        function reload_table() {
+            var jsmc = $("#jsmc1").val();
+            var loading_img = layer.load();
+            table.reload('test-table-cellEdit', {
+                where: {"jsmc" :jsmc},
+                page: {
+                    curr: 1
+                },
+                done: function () {
+                    layer.close(loading_img);
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>

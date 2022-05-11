@@ -1,0 +1,106 @@
+var dict = {
+data:{
+<#list types as type>
+    "${type}":{
+    <#list list as l>
+        <#if l.dicName=type>
+            "${l.dicVal}":"${l.dicMemo}"
+            <#if (l_index) lt (list?size-1)>,</#if>
+        </#if>
+    </#list>
+    }
+    <#if (type_index) lt (types?size-1)>,</#if>
+</#list>
+},
+getValue:function(type,key){
+    if(this.data[type]!=null&&this.data[type][key]!=null){
+       return this.data[type][key]; 
+    }else{
+       return ""; 
+    }
+},
+getOptions:function(type){
+    if(this.data[type]!=null){
+        var d = this.data[type];
+        var options = "<option value=''>请选择</option>";
+        for(var k in d){
+            options+="<option value='"+k+"'>"+d[k]+"</option>";
+        }
+        return options; 
+    }else{
+        return "<option value=''>请选择</option>"; 
+    }
+},
+<!--BJLBDM-->
+dataBjLb:{
+<#list listBjLb as lb>
+    "${lb.dm}":"${lb.mc}"
+    <#if (lb_index) lt (listBjLb?size-1)>,</#if>
+</#list>
+},
+getBjLb:function(key){
+    if(this.dataBjLb[key]!=null){
+        return this.dataBjLb[key]; 
+    }else{
+        return ""; 
+    }
+},
+<!--BJLXDM-->
+dataBjLx:{
+<#list listBjLx as lb>
+    "${lb.dm}":"${lb.mc}"
+    <#if (lb_index) lt (listBjLx?size-1)>,</#if>
+</#list>
+},
+getBjLx:function(key){
+    if(this.dataBjLx[key]!=null){
+        return this.dataBjLx[key]; 
+    }else{
+        return ""; 
+    }
+},
+<!--FKLBDM-->
+dataFkLb:{
+<#list listFkLb as lb>
+    "${lb.dm}":"${lb.mc}"
+    <#if (lb_index) lt (listFkLb?size-1)>,</#if>
+</#list>
+},
+getFkLb:function(key){
+    if(this.dataFkLb[key]!=null){
+        return this.dataFkLb[key]; 
+    }else{
+        return ""; 
+    }
+},
+<!--FKLXDM-->
+dataFklx:{
+<#list listFkLx as lx>
+    "${lx.dm}":"${lx.mc}"
+    <#if (lx_index) lt (listFkLx?size-1)>,</#if>
+</#list>
+},
+getFklx:function(key){
+    if(this.dataFklx[key]!=null){
+        return this.dataFklx[key]; 
+    }else{
+        return ""; 
+    }
+},
+<!--FKXLDM-->
+dataFkXl:{
+<#list listFkXl as lb>
+    "${lb.dm}":"${lb.mc}"
+    <#if (lb_index) lt (listFkXl?size-1)>,</#if>
+</#list>
+},
+getFkXl:function(key){
+    if(this.dataFkXl[key]!=null){
+        return this.dataFkXl[key];
+    }else{
+        return ""; 
+    }
+}
+
+}
+

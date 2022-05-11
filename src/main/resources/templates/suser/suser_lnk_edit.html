@@ -1,0 +1,115 @@
+
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>用户快捷方式编辑</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <link rel="stylesheet" href="${cp}/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="${cp}/layuiadmin/style/admin.css" media="all">
+</head>
+<body>
+
+<div class="layui-fluid">
+    <div class="layui-row layui-col-space15">
+        <div class="layui-col-md12">
+            <div class="layui-card">
+                <div class="layui-card-body">
+                    <div class="layui-btn-container">
+                        <button type="button" class="layui-btn layui-btn-sm" lay-demo="getChecked">提交</button>
+                        <button type="button" class="layui-btn layui-btn-sm" lay-demo="reload">重置</button>
+                    </div>
+                    <div id="test-tree-demo1"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="${cp}/layuiadmin/layui/layui.js"></script>
+<script>
+    layui.config({
+        base: '${cp}/layuiadmin/' //静态资源所在路径
+    }).extend({
+        index: 'lib/index' //主入口模块
+    }).use(['index', 'tree', 'layer', 'util'], function(){
+        var $ = layui.$
+            ,tree = layui.tree
+            ,layer = layui.layer
+            ,util = layui.util
+
+        //基本演示
+        tree.render({
+            elem: '#test-tree-demo1'
+            ,data: getTreeData()
+            ,showCheckbox: true  //是否显示复选框
+            ,id: 'demoId1'
+        });
+
+        //按钮事件
+        util.event('lay-demo', {
+            getChecked: function(othis){
+                var checkedData = tree.getChecked('demoId1'); //获取选中节点的数据
+                // layer.alert(JSON.stringify(checkedData), {shade:0});
+                debugger
+                var ids = getCheckedId(checkedData)
+                $.ajax({
+                    url: "${cp}/lnkSave",    //后台数据请求地址
+                    data: {ids:ids},
+                    type: "get",
+                    success: function(res){
+                        layer.msg(res, {
+                            time: 5000, //5s后自动关闭
+                            btn: ['确认']
+                        });
+                    }
+                });
+            }
+            ,reload: function(){
+                //重载实例
+                tree.reload('demoId1', {});
+            }
+        });
+
+        function getTreeData(){
+            var data = [];
+            $.ajax({
+                url: "${cp}/lnkData",    //后台数据请求地址
+                type: "post",
+                async:false,
+                success: function(res){
+                    data = res;
+                }
+            });
+            return data;
+        };
+
+        // 获取选中节点的id
+        function getCheckedId(jsonObj) {
+            var id = "";
+            $.each(jsonObj, function (index, item) {
+                var i = getCheckedId(item.children);
+                if (i != "") {
+                    if (id != "") {
+                        id = id + "," + i;
+                    } else {
+                        id = i;
+                    }
+                } else {
+                    if (id != "") {
+                        id = id + "," + item.id;
+                    } else {
+                        id = item.id;
+                    }
+                }
+            });
+            return id;
+        }
+
+    });
+</script>
+</body>
+</html>

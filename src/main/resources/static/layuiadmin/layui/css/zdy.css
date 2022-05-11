@@ -1,0 +1,62 @@
+.layui-row {
+    padding: 0px 0 0 0;
+}
+
+.layui-row1 {
+    padding: 10px 0 0 0;
+}
+
+.layui-btn-group {
+    padding-left: 15px;
+}
+
+.layui-table-cell .layui-btn-group {
+    padding-left: 0;
+}
+
+.layui-row1 .layui-btn-group {
+    padding-left: 0;
+}
+
+.layui-form-label {
+    padding: 5px 15px;
+}
+
+.layui-input, .layui-select, .layui-textarea {
+    height: 30px;
+}
+
+.layui-input-date1{
+    width: 73%;
+}
+
+.layui-input-date1 input {
+    width: 28%;
+    float: left;
+}
+
+.layui-input-date1 span {
+    width: 2%;
+    float: left;
+    color: #e6e6e6;
+}
+
+.layui-input-date input {
+    width: 49%;
+    float: left;
+}
+
+.layui-input-date span {
+    width: 2%;
+    float: left;
+    color: #e6e6e6;
+}
+
+.no_border_input {
+    border: 0px;
+}
+
+.layui-field-title {
+    margin: 10px 0 0 0;
+    border-width: 1px 0 0;
+}

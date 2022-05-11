@@ -1,0 +1,39 @@
+spring:
+  mvc:
+    favicon:
+      enabled: false
+    dateFormat: yyyy-MM-dd HH:mm:ss
+  freemarker:
+    charset: UTF-8
+    suffix: .html
+    content-type: text/html;charset=utf-8
+    template-loader-path: classpath:/templates
+    settings:
+      tag_syntax: auto_detect
+      number_format: 0.##
+  datasource:
+    dynamic:
+      datasource:
+        master:
+          username: user_data
+          password: "Dctm@1234"
+          url: jdbc:mysql://rm-1fy71albnezn12a3p.mysql.rds.inner.jhszwy.net:3306/db_qrcc?useUnicode=true&characterEncoding=utf-8&autoReconnect=true&serverTimezone=UTC&rewriteBacthedStatements=true
+          driver-class-name: com.mysql.cj.jdbc.Driver
+
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  typeAliasesPackage: com.ydt.bean
+  global-config:
+    id-type: 0
+    field-strategy: 2
+    db-column-underline: true
+
+log:
+  path: D:\
+
+server:
+  servlet:
+    context-path: /
+  port: 8080
+
+uploadPath: /Users/lvjianqing/logs/upload/

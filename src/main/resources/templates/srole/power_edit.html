@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="${cp}/layuiadmin/layui/css/layui.css" media="all">
+    <link rel="stylesheet" href="${cp}/layuiadmin/style/admin.css" media="all">
+    <style>
+        .layui-form-checked[lay-skin=primary] i {
+            border-color: #1797be;
+            background-color: #1797be;
+        }
+    </style>
+</head>
+<body>
+
+<form class="layui-form" action="${cp}/srole/permission/save" style="margin-top: 10px;" method="post">
+    <input type="hidden" name="id" value="${id}">
+    <#list all as al>
+        <#if al.pid=0 >
+            <fieldset class="layui-elem-field site-demo-button">
+                <legend style="font-size: 15px;font-weight: 400;">
+                    <input type="checkbox" name="permissions" value="${al.id}" lay-skin="primary"
+                           title="${al.title!''}"
+                    <#list self as s>
+                        <#if s.powerId=al.id>checked=""</#if>
+                    </#list>
+                    >
+                </legend>
+                <div class="layui-form-item" pane="">
+                    <div class="layui-input-block" style="margin-left: 40px;">
+                        <#list all as a>
+                            <#if a.pid=al.id>
+                                <input type="checkbox" name="permissions" value="${a.id}" lay-skin="primary"
+                                       title="${a.title!''}"
+                                <#list self as s>
+                                    <#if s.powerId=a.id>checked=""</#if>
+                                </#list>
+                                ></br>
+                                <div class="layui-input-block" style="margin-left: 50px;min-height: 0px">
+                                <#list all as aa>
+                                    <#if aa.pid=a.id>
+                                        <input type="checkbox" name="permissions" value="${aa.id}" lay-skin="primary"
+                                               title="${aa.title!}"
+                                        <#list self as s>
+                                            <#if s.powerId=aa.id>checked=""</#if>
+                                        </#list>
+                                        >
+                                        <div class="layui-input-block" style="margin-left: 50px;min-height: 0px">
+                                        <#list all as aaa>
+                                            <#if aaa.pid=aa.id>
+                                                <input type="checkbox" name="permissions" value="${aaa.id}" lay-skin="primary"
+                                                       title="${aaa.title!}"
+                                                <#list self as s>
+                                                    <#if s.powerId=aaa.id>checked=""</#if>
+                                                </#list>
+                                                >
+                                            </#if>
+                                        </#list>
+                                        </div>
+                                    </#if>
+                                </#list>
+                                </div>
+                            </#if>
+                        </#list>
+                    </div>
+                </div>
+            </fieldset>
+        </#if>
+    </#list>
+    <div class="layui-form-item" style="text-align:center">
+        <div class="layui-btn-group">
+            <button class="layui-btn" lay-submit="" lay-filter="sub" style="background-color: #1797be">立即提交</button>
+            <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+        </div>
+    </div>
+</form>
+
+<script src="${cp}/layuiadmin/layui/layui.js"></script>
+<!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+<script>
+    layui.use(['form', 'layedit', 'laydate'], function () {
+        var form = layui.form
+            , layer = layui.layer;
+
+        //监听提交
+        form.on('submit(sub)', function (data) {
+            var loading_img = layer.load(1, {
+                shade: [0.1,'#B3B3B3'] //0.1透明度的白色背景
+            });
+        });
+
+
+    });
+</script>
+
+</body>
+</html>
